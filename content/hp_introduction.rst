@@ -167,4 +167,5 @@ to select points which gives as much information as possible. See `The Supervise
 
 Unfortunately, Gaussian Processes suffer when the factors are discrete, which they often are 
 in Neural Network hyper parameters. The default sampling procedure for Optuna is a method called 
-Tree-Structured Parzen Estimators.
+Tree-Structured Parzen Estimators. For an intuitive explanation, 
+see `this article <http://neupy.com/2016/12/17/hyperparameter_optimization_for_neural_networks.html#tree-structured-parzen-estimators-tpe>`_.
