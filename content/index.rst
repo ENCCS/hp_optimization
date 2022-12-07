@@ -1,5 +1,5 @@
 Hyper Parameter Search using Optuna
-==================================
+===================================
 
 Designing Neural Network learning algorithm requires 
 setting many hyper parameters. In this 2 hour workshop 
@@ -13,12 +13,16 @@ parameters.
    This workshop assumes good knowledge of Python and familiarity 
    with designing and training neural networks.
 
-.. csv-table::
-   :widths: auto
-   :delim: ;
 
-   20 min ; :doc:`filename`
+The workshop is organized around introductory material giving 
+some background to what hyper parameter optimization is about 
+and concepts underlying Bayesian Optimization. The first practical 
+part uses a Jupyter Notebook to illustrate how the Optuna package 
+works, and highlights that it allows us to essentially optimize any 
+black box.
 
+The second practical shows how we can add hyper parameter optimization 
+to a simple neural network trained using cross-validation to automate the search.
 
 .. toctree::
    :maxdepth: 1
@@ -43,35 +47,24 @@ parameters.
    cross_validation_example
 
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Reference
-
-   quick-reference
-   guide
-
-
 
 .. _learner-personas:
 
 Who is the course for?
 ----------------------
 
+You have experience with training neural networks, but find it 
+frustrating to manually tune yout hyper parameters.
 
-
+You want to learn a tool which can be helpful for optimizing any 
+black box, including being useful for design of experiments.
 
 
 About the course
 ----------------
 
-
-
-
-
-
-See also
---------
-
+This course is developed as part of the EuroCC 
+National Competence Center Sweden (ENCCS) training materials.
 
 
 
