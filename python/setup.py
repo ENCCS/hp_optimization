@@ -8,8 +8,8 @@ def readme():
 
 setup(name='hpo_workshop',
       version='0.1',
-      description='Project to train QSAR models',
-      url='https://github.com/eryl/hpo_workshop',
+      description='Hyper Parmeter optimization package',
+      url='https://github.com/enccs/hpo_workshop',
       author='Erik Ylipää',
       author_email='erik.ylipaa@ri.se',
       license='MIT',
