@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyper Parameter optimization for neural networks &mdash; How to search for hyper parameters  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Hyper Parameter Optimization with Optuna" href="../notebooks/hyper_parameter_optimization/" />
+    <link rel="prev" title="Hyper Parameter Search using Optuna" href="../" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> How to search for hyper parameters
+            <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Hyper Parameter Optimization</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hyper Parameter optimization for neural networks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hyper-parameters-in-neural-networks">Hyper Parameters in Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-pesky-learning-rate">The pesky learning rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dropout">Dropout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-sensitivity-to-hyper-parameters">The sensitivity to hyper parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-make-hp-search-faster-by-using-a-subset-of-the-data">Can I make HP search faster by using a subset of the data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-make-hp-search-faster-by-training-for-fewer-epochs">Can I make HP search faster by training for fewer epochs?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hyper-parameter-optimization-and-experiment-design">Hyper Parameter optimization and experiment design</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hyper_parameter_optimization/">Hyper Parameter Optimization with Optuna</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example with cross validation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation_example/">Batch run example code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">How to search for hyper parameters</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Hyper Parameter optimization for neural networks</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/hp_optimization/blob/main/content/hp_introduction.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hyper-parameter-optimization-for-neural-networks">
+<h1>Hyper Parameter optimization for neural networks<a class="headerlink" href="#hyper-parameter-optimization-for-neural-networks" title="Permalink to this heading"></a></h1>
+<p>Many machine learning algorithms can be formulated as methods of trying to find some
+parameters <span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span> which makes a parameterized function <span class="math notranslate nohighlight">\(f(x; \mathbf{\theta})\)</span>
+approximate some true unknown relationship between two variables <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>The family of functions which we can span with <span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span> can
+be thought of as a set. Each specific setting of the parameters is an element
+of this set. The <em>learning</em> we perform when optimizing a Neural Network
+is searching for good points in this set of functions. We use some search
+procedure such as local gradient search to explore this set using our training data.</p>
+<p>What is fundamentally important when designing Neural Networks is the extent of
+this set: what functions we can actually end up in. This is determined by the
+modeling choices we make, such as the size and kinds of layers we use.</p>
+<p>This set is determined by how we <em>design</em> our Neural Network. We can think of the
+hyper parameters we choose as defining this set of functions. In this workshop we
+will look at methods to tune these settings automatically using the Optuna framework.</p>
+<section id="hyper-parameters-in-neural-networks">
+<h2>Hyper Parameters in Neural Networks<a class="headerlink" href="#hyper-parameters-in-neural-networks" title="Permalink to this heading"></a></h2>
+<p>In Neural Network, many parts of the function family can be determined by hyper parameters.
+The number of layers, the size of layers, the activation functions, dropout rate,
+learning rate, skip-connections, normalization layers, mini-batch size etc.</p>
+<p>Often we focus on just a couple of these parameters, since the difficulty of any search
+method in hyper parameter space tends to increase exponentially with the number of
+hyper parameters. One hyper parameter in particular has always been important to optimize
+for neural networks trained with gradient descent: the <em>learning rate</em>.</p>
+</section>
+<section id="the-pesky-learning-rate">
+<h2>The pesky learning rate<a class="headerlink" href="#the-pesky-learning-rate" title="Permalink to this heading"></a></h2>
+<p>It’s also long been known that the <em>learning rate</em> is central to
+how well the SGD search will be perform when training neural networks,
+set it too low and the optimization doesn’t converge, set it too high and it diverges.</p>
+<p>It’s also been noted that the learning rate often benefits from <em>scheduling</em>, i.e.
+changing it over the course of the optimization. These schedules can vary a lot, but are
+mostly parameterized by some additional set of hyper parameters, such as how much and
+how often to reduce the learning rate.</p>
+<p>There are modern automatic learning rate finders which perform a greedy local search by scanning
+a range of learning rates over a number of training batches (popularized as <code class="code docutils literal notranslate"><span class="pre">lr_range_finder</span></code>
+by fast.ai and incorporated in many machine learning frameworks). These have proven successful and could be
+attempted instead of what we’re doing in this workshop which uses a more general approach.</p>
+<p>In addition to tuning a learning rate, we often use variations of SGD with features such
+as momentum and scaling the update step by some exponentially moving average of the gradients.
+These mechanism are typically also parameterized (by <em>momentum</em> parameters, such as <span class="math notranslate nohighlight">\(\beta_1\)</span>
+and <span class="math notranslate nohighlight">\(\beta_2\)</span> of the Adam optimizer).</p>
+<p>It’s also common to use <em>weight decay</em>, which pushes weights towards zero, and the strenght
+of this mechanism has to be determined.</p>
+</section>
+<section id="dropout">
+<h2>Dropout<a class="headerlink" href="#dropout" title="Permalink to this heading"></a></h2>
+<p>A common method to make neural networks less prone to overfitting is that of dropout,
+essentally a way of faking ensamble models within a single neural network. This is also
+governed by a hyper parameter which determines how large subnetworks to sample from
+the original network.</p>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h2>
+<p>Size of layers and number of layers also greatly affects how the neural network
+will perform. These are fundamentally</p>
+</section>
+<section id="the-sensitivity-to-hyper-parameters">
+<h2>The sensitivity to hyper parameters<a class="headerlink" href="#the-sensitivity-to-hyper-parameters" title="Permalink to this heading"></a></h2>
+<p>Unfortunately for neural networks, they are very sensitive to hyper parameter choice.
+In particular learning rate has been shown to dramatically affect performance. This
+means that any study which compares different neural networks (with different architectures
+or datasets) is meaningless unless all have undergone their own hyper parameter
+optimization procedure.
+This is also true for when we experiment with our own architectures: if we just run
+the SGD procedure with some arbitrary hyper parameter point (e.g. a learning
+rate of <span class="math notranslate nohighlight">\(0.001\)</span>) that doesn’t necessarily reflect the best
+performance of any single architecture and the choice whe eventually make will be
+biased from the choice of “default” hyper parameters.</p>
+</section>
+<section id="can-i-make-hp-search-faster-by-using-a-subset-of-the-data">
+<h2>Can I make HP search faster by using a subset of the data?<a class="headerlink" href="#can-i-make-hp-search-faster-by-using-a-subset-of-the-data" title="Permalink to this heading"></a></h2>
+<p>While you can certainly make it faster, the hyper parameters you find will
+depend on the dataset. Even if you don’t search over architectural parameters
+(e.g. size of layers, connectivity between layers) many hyper parameters are
+still tied to effective model complexity (e.g. learning rate, weight decay,
+dropout rate) which means that the ones your HP search procedure finds are
+likely conservative if you increase the dataset size.</p>
+</section>
+<section id="can-i-make-hp-search-faster-by-training-for-fewer-epochs">
+<h2>Can I make HP search faster by training for fewer epochs?<a class="headerlink" href="#can-i-make-hp-search-faster-by-training-for-fewer-epochs" title="Permalink to this heading"></a></h2>
+<p>Another way of speeding up HP search could be to train for
+just a few number of epochs and use early performance as a
+proxy for late performance. The idea is that networks where
+the error decreases more rapidly early should be better
+than those where it decreases more slowly.</p>
+<p>Unfortunately, studies have found that early performance doesn’t
+correlate significanly with late performance. The training of networks
+can show “plateaus”, where loss stops decreasing, but might then
+start decreasing again. In particular, turning on or off <em>Batch Normalization</em>
+(BN) shows this performance, where BN typically takes a longer time to start
+decreasing, but in the end converges to models which outperform non-BN ones.</p>
+<p>This means that in principal we should train our networks to convergence
+before determining how suitable a set of hyper parameters were.</p>
+<p>There are situations where this is infeasible, models being trained
+on truly massive datasets (e.g. large scale language models trained
+on text scraped from the web) are never trained to convergence.
+Their development error continually decreases until a new run is started.
+In practice, it’s very rare that we have these kinds of datasets.
+If you do, many of these recommendations are not valid.</p>
+</section>
+<section id="hyper-parameter-optimization-and-experiment-design">
+<h2>Hyper Parameter optimization and experiment design<a class="headerlink" href="#hyper-parameter-optimization-and-experiment-design" title="Permalink to this heading"></a></h2>
+<p>The field of experiment design (or design of experiments, DOE) has a
+long and solid history of building methods to determine what experiments
+to perform to optimize some property and is fundamentally important to
+all of experimental science.
+Hyper parameter optimizaition is really just another application of
+experiment design.
+HP optimzation for neural nets often
+have a lot of factors (hyper parameters) so methods such as
+factorial design becomes intractable. Another complication is that
+many hyper parameters have higher order interactions, i.e. the
+outcame changes by factors in combination and not linearly. Also,
+the levels of the factors (the values to investigate for the hyper paramters)
+are often large, so a two-level factorial design is insufficient.</p>
+<p>The field of HP optimization has also been decoupled from DOE, which leads to
+it developing its own tools for doing the optimization. It’s important
+to note though, that any expertise you have in DOE can
+inform you of how to do HP optimzation and <em>vice versa</em>.
+The tools we use in this workshop to optimize hyper parameters could
+easily be used to optimize any experimental factors.</p>
+<p>One important method in experiment design is that of the Response Surface Method (RSM).
+Essentially, we can fit some model you our experiment settings and their outcomes.
+We can then probe this model (the response surface) for settings which should be
+optimal and iteratively rebuild the model.
+Classical RSM uses a second degree polynomial for this purpose, since it’s easy to use for
+optimzation and is able to capture second order interactions. However, this
+model might suffer when modelling the hyper parameter respense for neural networks, in
+particular because we often have some categorical factors.</p>
+<p>This has led to the development of more flexible models for the response surface, and one
+popular such model has been Gaussian Processes. This model has the advantage of also modeling
+the uncertainty over the response surface which allows the hyper parameter optimization procedure
+to select points which gives as much information as possible. See <a class="reference external" href="http://smlbook.org/GP">The Supervised Machine Learning Book</a> for an excellent illustration.</p>
+<p>Unfortunately, Gaussian Processes suffer when the factors are discrete, which they often are
+in Neural Network hyper parameters. The default sampling procedure for Optuna is a method called
+Tree-Structured Parzen Estimators. For an intuitive explanation,
+see <a class="reference external" href="http://neupy.com/2016/12/17/hyperparameter_optimization_for_neural_networks.html#tree-structured-parzen-estimators-tpe">this article</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../" class="btn btn-neutral float-left" title="Hyper Parameter Search using Optuna" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../notebooks/hyper_parameter_optimization/" class="btn btn-neutral float-right" title="Hyper Parameter Optimization with Optuna" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ENCCS Hyper Parameter Optimization Workshop and individual contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
