@@ -29,9 +29,7 @@ to a simple neural network trained using cross-validation to automate the search
    :caption: Hyper Parameter Optimization
    
    hp_introduction
-   hp_search_strategies
-   cross_validation
-
+   
 
 .. toctree::
    :maxdepth: 1
