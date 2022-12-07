@@ -1,8 +1,37 @@
-Cross validation example code
-=============================
+Batch run example code
+======================
+
 
 Here will go through an example where we change some code to use optuna. 
 You can find the code :download:`here <_static/code_archive.zip>`.
+
+Installation
+------------
+
+The code relies on anaconda. Create an environment by running
+
+.. code-block:: shell
+
+    $ conda env create -f environment.yml
+
+Once this is done, activate the envioronment by running
+
+
+.. code-block:: shell
+
+    $ conda activate hpo_workshop
+
+Now we need to make the code in the archive available. After extracting the files, go to the directory you extracted them to and run
+
+.. code-block:: shell
+
+    $ pip install -e .
+
+This installs the partorch package into the active anaconda environment and makes it globally available in the environment.
+
+
+Optimizing hyper parameters
+---------------------------
 
 The example implements a simple Long Short-Term Memory (LSTM) network on a 
 binary sequence prediction dataset. The sequences are molecules encoded in 
